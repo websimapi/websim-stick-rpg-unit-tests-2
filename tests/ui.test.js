@@ -1,7 +1,7 @@
 import chai from 'chai';
 const { expect } = chai;
-import { initGameUI, handleAction, render } from 'src/ui.js';
-import { createPlayer } from 'src/player.js';
+import { initGameUI, handleAction, render, getGameState } from 'src/ui';
+import { createPlayer } from 'src/player';
 
 describe('UI Logic', () => {
     let container;
