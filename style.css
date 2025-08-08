@@ -1,0 +1,58 @@
+body {
+    font-family: 'Courier New', Courier, monospace;
+    background-color: #1a1a1a;
+    color: #f0f0f0;
+    padding: 20px;
+}
+
+h1 {
+    color: #00ff00;
+    border-bottom: 2px solid #00ff00;
+    padding-bottom: 10px;
+}
+
+p {
+    color: #ccc;
+}
+
+#mocha {
+    margin-top: 20px;
+}
+
+/* Mocha overrides for dark theme */
+#mocha .suite h1 {
+    color: #f0f0f0;
+    font-size: 1.2em;
+    border: none;
+}
+
+#mocha .test {
+    border-left: 3px solid #555;
+    padding-left: 10px;
+    margin-left: 20px;
+}
+
+#mocha .test.fail {
+    border-left-color: #f44336;
+}
+
+#mocha .test.pass {
+    border-left-color: #4caf50;
+}
+
+#mocha .test.fail::before {
+    color: #f44336;
+}
+
+#mocha .test.pass::before {
+    color: #4caf50;
+}
+
+#mocha .test .duration {
+    color: #999;
+}
+
+#mocha-stats .progress .bar {
+    background: #4caf50;
+}
+
