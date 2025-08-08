@@ -1,4 +1,5 @@
-import { expect } from 'chai';
+import chai from 'chai';
+const { expect } = chai;
 import { createPlayer, trainStat, workJob } from 'src/player';
 
 describe('Player', () => {
@@ -55,4 +56,3 @@ describe('Player', () => {
         });
     });
 });
-

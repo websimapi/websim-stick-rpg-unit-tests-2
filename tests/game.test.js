@@ -1,4 +1,5 @@
-import { expect } from 'chai';
+import chai from 'chai';
+const { expect } = chai;
 import { createGameState, advanceDay } from 'src/game';
 import { createPlayer } from 'src/player';
 
@@ -31,4 +32,3 @@ describe('Game Logic', () => {
         });
     });
 });
-
