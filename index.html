@@ -11,7 +11,9 @@
     <h1>Stick RPG - Development Test Suite</h1>
     <p>Below are the unit tests for the game. Our goal is to make them all pass! Once they do, the game will appear here.</p>
     <div id="mocha"></div>
-    <div id="game-container" style="display: none;"></div>
+    <div id="game-container" style="display: none;">
+        <!-- Game will be rendered here -->
+    </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mocha/9.2.2/mocha.min.js"></script>
     <script>
@@ -33,6 +35,7 @@
     <!-- Import test files as modules. They will now have access to the global mocha functions. -->
     <script type="module" src="./tests/player.test.js"></script>
     <script type="module" src="./tests/game.test.js"></script>
+    <script type="module" src="./tests/ui.test.js"></script>
 
     <script type="module">
         // Run the tests after all test files have been loaded.
@@ -42,18 +45,23 @@
             // The `stats` object is available on the runner after the tests have completed.
             if (this.stats.failures === 0) {
                 console.log('All tests passed! Initializing game...');
-                // Hide test-related elements
-                document.getElementById('mocha').style.display = 'none';
-                document.querySelector('h1').textContent = 'Stick RPG';
-                document.querySelector('p').textContent = 'Your adventure begins! Choose an action.';
+                // Don't hide test-related elements
+                document.querySelector('h1').textContent = 'Stick RPG - Test Suite & Game';
+                document.querySelector('p').textContent = 'All tests passed! The game is now available below the test results.';
                 
                 // Show the game container and initialize the UI
                 const gameContainer = document.getElementById('game-container');
                 gameContainer.style.display = 'block';
 
-                import('src/ui').then(({ initGameUI }) => {
-                    initGameUI(gameContainer);
-                }).catch(err => console.error('Failed to load game UI:', err));
+                if (!gameContainer.hasChildNodes()) { // Prevent re-initialization on hot-reloads
+                    import('src/ui').then(({ initGameUI }) => {
+                        initGameUI(gameContainer);
+                    }).catch(err => console.error('Failed to load game UI:', err));
+                }
+            } else {
+                document.querySelector('h1').textContent = 'Stick RPG - Development Test Suite';
+                document.querySelector('p').textContent = 'Fix the failing unit tests to play the game.';
+                document.getElementById('game-container').style.display = 'none';
             }
         });
     </script>

@@ -3,6 +3,11 @@ import { createPlayer, trainStat, workJob } from './player.js';
 
 let gameState;
 
+// Exporting for testability
+export function getGameState() {
+    return gameState;
+}
+
 // Available actions in the game
 const actions = {
     train: [
@@ -17,7 +22,8 @@ const actions = {
     ]
 };
 
-function render() {
+// Export for testability
+export function render() {
     const { player, day, message } = gameState;
 
     const playerStatsDiv = document.getElementById('player-stats-content');
@@ -63,10 +69,9 @@ function render() {
         button.disabled = disabled;
         button.title = reason;
     });
-
 }
 
-function handleAction(actionName, type) {
+export function handleAction(actionName, type) {
     gameState.message = ''; // Clear previous message
     let playerStateChanged = false;
 
@@ -101,7 +106,6 @@ function handleAction(actionName, type) {
         render();
     }
 }
-
 
 export function initGameUI(container) {
     gameState = createGameState();
