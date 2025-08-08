@@ -3,14 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Stick RPG - Unit Tests</title>
+    <title>Stick RPG</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/mocha/9.2.2/mocha.min.css">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <h1>Stick RPG - Development Test Suite</h1>
-    <p>Below are the unit tests for the game. Our goal is to make them all pass!</p>
+    <p>Below are the unit tests for the game. Our goal is to make them all pass! Once they do, the game will appear here.</p>
     <div id="mocha"></div>
+    <div id="game-container" style="display: none;"></div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mocha/9.2.2/mocha.min.js"></script>
     <script>
@@ -23,7 +24,8 @@
         "imports": {
             "chai": "https://esm.sh/chai@4.3.7",
             "src/player": "./src/player.js",
-            "src/game": "./src/game.js"
+            "src/game": "./src/game.js",
+            "src/ui": "./src/ui.js"
         }
     }
     </script>
@@ -34,7 +36,26 @@
 
     <script type="module">
         // Run the tests after all test files have been loaded.
-        mocha.run();
+        const runner = mocha.run();
+
+        runner.on('end', function() {
+            // The `stats` object is available on the runner after the tests have completed.
+            if (this.stats.failures === 0) {
+                console.log('All tests passed! Initializing game...');
+                // Hide test-related elements
+                document.getElementById('mocha').style.display = 'none';
+                document.querySelector('h1').textContent = 'Stick RPG';
+                document.querySelector('p').textContent = 'Your adventure begins! Choose an action.';
+                
+                // Show the game container and initialize the UI
+                const gameContainer = document.getElementById('game-container');
+                gameContainer.style.display = 'block';
+
+                import('src/ui').then(({ initGameUI }) => {
+                    initGameUI(gameContainer);
+                }).catch(err => console.error('Failed to load game UI:', err));
+            }
+        });
     </script>
 <script defer src="https://static.cloudflareinsights.com/beacon.min.js/v8c78df7c7c0f484497ecbca7046644da1771523124516" integrity="sha512-8DS7rgIrAmghBFwoOTujcf6D9rXvH8xm8JQ1Ja01h9QX8EzXldiszufYa4IFfKdLUKTTrnSFXLDkUEOTrZQ8Qg==" data-cf-beacon='{"version":"2024.11.0","token":"4c6229722a6346bc8eb5cb0e5eae5d41","server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
 </body>
