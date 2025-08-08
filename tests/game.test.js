@@ -29,6 +29,7 @@ describe('Game Logic', () => {
             // For now we will just check if the player object exists
             expect(nextDayState.player).to.exist;
             // The real test should be: expect(nextDayState.player.energy).to.equal(100);
+            expect(nextDayState.player.energy).to.equal(100);
         });
     });
 });

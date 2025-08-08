@@ -4,24 +4,32 @@
 // For now, it's a placeholder to make tests fail.
 
 export const createPlayer = (name) => {
-    // This should return an object with stats, but it's empty for now.
     return {
         name: name,
-        stats: {}, // Should have str, int, cha
-        money: 0, // Should start with 100
-        energy: 10, // Should start with 100
+        stats: { str: 10, int: 10, cha: 10 },
+        money: 100,
+        energy: 100,
     };
 };
 
 export const trainStat = (player, stat) => {
-    // This function should increase a player's stat.
-    // It currently does nothing.
-    return player;
+    const newPlayer = { ...player };
+    newPlayer.stats = { ...player.stats };
+
+    if (newPlayer.stats.hasOwnProperty(stat)) {
+        newPlayer.stats[stat] += 1;
+    }
+    
+    // In a real scenario, this would also cost energy/time.
+    // For now, we just increment the stat to pass the test.
+    return newPlayer;
 };
 
 export const workJob = (player, job) => {
-    // This function should increase money and decrease energy.
-    // It currently does nothing.
-    return player;
-};
+    const newPlayer = { ...player };
 
+    newPlayer.money += job.pay;
+    newPlayer.energy -= job.energyCost;
+
+    return newPlayer;
+};

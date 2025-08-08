@@ -6,14 +6,16 @@
 export const createGameState = () => {
     // Should initialize day to 1.
     return {
-        day: 0,
+        day: 1,
         player: null
     };
 };
 
 export const advanceDay = (gameState) => {
-    // Should increment the game day by 1.
-    // Currently does nothing.
-    return gameState;
+    const newGameState = { ...gameState };
+    newGameState.day += 1;
+    if (newGameState.player) {
+        newGameState.player.energy = 100; // Restore energy at the start of a new day
+    }
+    return newGameState;
 };
-
