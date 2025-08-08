@@ -36,8 +36,12 @@ describe('UI Logic', () => {
     });
 
     describe('render()', () => {
-        it('should display the correct player stats', () => {
+        beforeEach(() => {
+            // We need to re-init the UI for each render test
             initGameUI(container);
+        });
+    
+        it('should display the correct player stats', () => {
             const gameState = getGameState();
             gameState.player.money = 500;
             gameState.player.energy = 50;
@@ -54,7 +58,6 @@ describe('UI Logic', () => {
         });
 
         it('should disable buttons when requirements are not met', () => {
-            initGameUI(container);
             const gameState = getGameState();
             
             // Player has 10 int, job needs 20.
@@ -74,9 +77,14 @@ describe('UI Logic', () => {
     });
 
     describe('handleAction()', () => {
-        it('should update player stats when training', () => {
+        beforeEach(() => {
+            // We need to re-init the UI for each action test
             initGameUI(container);
+        });
+
+        it('should update player stats when training', () => {
             const initialGameState = { ...getGameState() };
+            initialGameState.player = {...getGameState().player}; // deep copy player
             
             // Click the "Train Strength" button
             const trainButton = container.querySelector('button[data-action="Train Strength"]');
@@ -88,9 +96,8 @@ describe('UI Logic', () => {
         });
 
         it('should advance the day when sleeping', () => {
-            initGameUI(container);
             const initialGameState = { ...getGameState() };
-            initialGameState.player.energy = 20; // Make player tired
+            initialGameState.player = {...getGameState().player}; // deep copy player
             
             const sleepButton = container.querySelector('button[data-action="Sleep (Next Day)"]');
             sleepButton.click();

@@ -50,7 +50,9 @@ export function render() {
 
         let disabled = false;
         let reason = '';
-        if (actionDetails.energy > player.energy || (actionDetails.energyCost && actionDetails.energyCost > player.energy)) {
+        const energyCost = actionDetails.energy || actionDetails.energyCost;
+
+        if (energyCost > player.energy) {
             disabled = true;
             reason = 'Not enough energy.';
         } else if (actionDetails.cost && actionDetails.cost > player.money) {
@@ -134,7 +136,7 @@ export function initGameUI(container) {
                 <hr>
                  <div class="action-category">
                     <div class="action-buttons">
-                        <button data-action="Sleep (Next Day)" data-type="game" data-action="sleep">Sleep (Next Day)</button>
+                        <button data-action="Sleep (Next Day)" data-type="game">Sleep (Next Day)</button>
                     </div>
                 </div>
             </div>

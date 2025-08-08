@@ -53,32 +53,38 @@
                 console.log('All tests passed! Enabling Play button...');
                 
                 // Update text and show play button
-                document.querySelector('#test-view p').textContent = 'All tests passed! Click the button below to play.';
-                const playButtonContainer = document.getElementById('play-button-container');
-                playButtonContainer.style.display = 'block';
+                const testView = document.getElementById('test-view');
+                if (testView) {
+                    testView.querySelector('p').textContent = 'All tests passed! Click the button below to play.';
+                    const playButtonContainer = document.getElementById('play-button-container');
+                    playButtonContainer.style.display = 'block';
 
-                const playGameBtn = document.getElementById('play-game-btn');
-                playGameBtn.addEventListener('click', () => {
-                    // Hide test-related elements
-                    document.getElementById('test-view').style.display = 'none';
-                    document.getElementById('mocha').style.display = 'none';
+                    const playGameBtn = document.getElementById('play-game-btn');
+                    playGameBtn.addEventListener('click', () => {
+                        // Hide test-related elements
+                        testView.style.display = 'none';
+                        document.getElementById('mocha').style.display = 'none';
 
-                    // Show the game container and initialize the UI
-                    const gameContainer = document.getElementById('game-container');
-                    gameContainer.style.display = 'flex'; // Use flex to match game layout
+                        // Show the game container and initialize the UI
+                        const gameContainer = document.getElementById('game-container');
+                        gameContainer.style.display = 'flex'; // Use flex to match game layout
 
-                    if (!gameContainer.hasChildNodes()) { // Prevent re-initialization
-                        import('src/ui').then(({ initGameUI }) => {
-                            initGameUI(gameContainer);
-                        }).catch(err => console.error('Failed to load game UI:', err));
-                    }
-                }, { once: true }); // Ensure the click event listener is only added and runs once
+                        if (!gameContainer.hasChildNodes()) { // Prevent re-initialization
+                            import('./src/ui.js').then(({ initGameUI }) => {
+                                initGameUI(gameContainer);
+                            }).catch(err => console.error('Failed to load game UI:', err));
+                        }
+                    }, { once: true }); // Ensure the click event listener is only added and runs once
+                }
 
             } else {
-                document.querySelector('#test-view h1').textContent = 'Stick RPG - Development Test Suite';
-                document.querySelector('#test-view p').textContent = 'Fix the failing unit tests to play the game.';
-                document.getElementById('game-container').style.display = 'none';
-                document.getElementById('play-button-container').style.display = 'none';
+                const testView = document.getElementById('test-view');
+                if (testView) {
+                    testView.querySelector('h1').textContent = 'Stick RPG - Development Test Suite';
+                    testView.querySelector('p').textContent = 'Fix the failing unit tests to play the game.';
+                    document.getElementById('game-container').style.display = 'none';
+                    document.getElementById('play-button-container').style.display = 'none';
+                }
             }
         });
     </script>
