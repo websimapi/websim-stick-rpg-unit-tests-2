@@ -8,8 +8,14 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h1>Stick RPG - Development Test Suite</h1>
-    <p>Below are the unit tests for the game. Our goal is to make them all pass! Once they do, the game will appear here.</p>
+    <div id="test-view">
+        <h1>Stick RPG - Development Test Suite</h1>
+        <p>Below are the unit tests for the game. Our goal is to make them all pass! Once they do, you can play the game.</p>
+        <div id="play-button-container" style="display: none;">
+            <button id="play-game-btn">Play Game</button>
+        </div>
+    </div>
+
     <div id="mocha"></div>
     <div id="game-container" style="display: none;">
         <!-- Game will be rendered here -->
@@ -44,24 +50,35 @@
         runner.on('end', function() {
             // The `stats` object is available on the runner after the tests have completed.
             if (this.stats.failures === 0) {
-                console.log('All tests passed! Initializing game...');
-                // Don't hide test-related elements
-                document.querySelector('h1').textContent = 'Stick RPG - Test Suite & Game';
-                document.querySelector('p').textContent = 'All tests passed! The game is now available below the test results.';
+                console.log('All tests passed! Enabling Play button...');
                 
-                // Show the game container and initialize the UI
-                const gameContainer = document.getElementById('game-container');
-                gameContainer.style.display = 'block';
+                // Update text and show play button
+                document.querySelector('#test-view p').textContent = 'All tests passed! Click the button below to play.';
+                const playButtonContainer = document.getElementById('play-button-container');
+                playButtonContainer.style.display = 'block';
 
-                if (!gameContainer.hasChildNodes()) { // Prevent re-initialization on hot-reloads
-                    import('src/ui').then(({ initGameUI }) => {
-                        initGameUI(gameContainer);
-                    }).catch(err => console.error('Failed to load game UI:', err));
-                }
+                const playGameBtn = document.getElementById('play-game-btn');
+                playGameBtn.addEventListener('click', () => {
+                    // Hide test-related elements
+                    document.getElementById('test-view').style.display = 'none';
+                    document.getElementById('mocha').style.display = 'none';
+
+                    // Show the game container and initialize the UI
+                    const gameContainer = document.getElementById('game-container');
+                    gameContainer.style.display = 'flex'; // Use flex to match game layout
+
+                    if (!gameContainer.hasChildNodes()) { // Prevent re-initialization
+                        import('src/ui').then(({ initGameUI }) => {
+                            initGameUI(gameContainer);
+                        }).catch(err => console.error('Failed to load game UI:', err));
+                    }
+                }, { once: true }); // Ensure the click event listener is only added and runs once
+
             } else {
-                document.querySelector('h1').textContent = 'Stick RPG - Development Test Suite';
-                document.querySelector('p').textContent = 'Fix the failing unit tests to play the game.';
+                document.querySelector('#test-view h1').textContent = 'Stick RPG - Development Test Suite';
+                document.querySelector('#test-view p').textContent = 'Fix the failing unit tests to play the game.';
                 document.getElementById('game-container').style.display = 'none';
+                document.getElementById('play-button-container').style.display = 'none';
             }
         });
     </script>
